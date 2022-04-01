@@ -21,7 +21,7 @@ class App():
         self.login()
         self.root.resizable(width=False, height=False)
         self.root.mainloop()
-
+# ćwiczę gita
 
     def darkmode(self):
         self.background_color = '#273746'

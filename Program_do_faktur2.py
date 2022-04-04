@@ -1,13 +1,13 @@
 from tkinter import *
-import mysql.connector
+from BaseConnector import Connector
 from tkcalendar import DateEntry
 from datetime import timedelta, datetime
 from tkinter import ttk
-from DbConnector import DbConnector
+
 
 class App():
     def __init__(self):
-        self.dbConnector = DbConnector()
+        self.connector = Connector("root", "", "localhost", "accounts")
         self.background_color = '#273746'
         self.foreground_color = '#CCD1D1'
         self.basic_font = 'Rockwell 13'
@@ -35,14 +35,14 @@ class App():
         entered_password = self.Pass_ent.get()
         if entered_login and entered_password != "":
             query = f"SELECT * FROM acc WHERE login='{entered_login}' and password='{entered_password}'"
-            self.dbConnector.get_cursor().execute(query)
+            self.connector.get_cursor().execute(query)
             self.Empty = None
             if self.Empty != None:
                 self.Empty.grid_forget()
             wrong = Label(self.Login_frame, text="Wrong Data", font=self.basic_font, fg=self.foreground_color,
                           bg=self.background_color)
             wrong.grid(row=8, column=5, sticky=NS, pady=30)
-            for i in self.dbConnector.get_cursor():
+            for i in self.connector.get_cursor():
                 if i != "":
                     success = Label(self.Login_frame, text="Login Successfull", font="Bebas 13",
                                     fg=self.foreground_color,
@@ -65,8 +65,8 @@ class App():
                     f"'{self.cont_list[2]}', '{self.cont_list[3]}', '{self.cont_list[4]}', '{self.cont_list[5]}')"
             print(self.cont_list)
             print(query)
-            self.dbConnector.get_cursor().execute(query)
-            self.dbConnector.commit()
+            self.connector.get_cursor().execute(query)
+            self.connector.commit()
             success = Label(self.Contrahent_frame, text="Contrahent has been added successfully", font=self.basic_font,
                             fg=self.foreground_color, bg=self.background_color)
             success.grid(column=4, row=9)
@@ -75,17 +75,17 @@ class App():
     def showing_contrahents(self):
         self.show_cont_list = []
         query = "Select * from contrahents"
-        self.dbConnector.get_cursor().execute(query)
-        result = self.dbConnector.get_cursor().fetchall()
+        self.connector.get_cursor().execute(query)
+        result = self.connector.get_cursor().fetchall()
         for row in result:
             self.show_cont_list.append(row[0])
 
 
     def Autoincrementmysql(self, e):
         query = f"Select * from contrahents where Company_name='{self.Contrahents_box.get()}'"
-        self.dbConnector.get_cursor().execute(query)
+        self.connector.get_cursor().execute(query)
 
-        result = self.dbConnector.get_cursor().fetchall()
+        result = self.connector.get_cursor().fetchall()
         for row in result:
             self.Address.set(row[1])
             self.Nip.set(row[2])
@@ -397,13 +397,13 @@ class App():
 
     def item_to_base(self):
         query = f"Insert Into items(Item_name, Category, Quantity, Price) Values('{self.Item_Name_Ent.get()}', '{self.Category_Box.get()}', '{self.Quantity_ent.get()}', '{self.Price_ent.get()}')"
-        self.dbConnector.get_cursor().execute(query)
-        self.dbConnector.commit()
+        self.connector.get_cursor().execute(query)
+        self.connector.commit()
         Label(self.Additem_frame, text="Added successfully", font=self.basic_font, fg=self.foreground_color, bg=self.background_color)
 
     def __del__(self):
-        self.dbConnector.get_cursor().close()
-        self.dbConnector.close()
+        self.connector.get_cursor().close()
+        self.connector.close()
 
 App()
 

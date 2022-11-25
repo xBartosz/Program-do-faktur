@@ -21,7 +21,7 @@ class App():
         self.login()
         self.root.resizable(width=False, height=False)
         self.root.mainloop()
-# ćwiczę gita
+
 
     def darkmode(self):
         self.background_color = '#273746'
@@ -31,7 +31,7 @@ class App():
         self.background_color = '#EAEDED'
         self.foreground_color = '#424949'
 
-    def logowanie(self):
+    def login_func(self):
         entered_login = self.Login_ent.get()
         entered_password = self.Pass_ent.get()
         if entered_login and entered_password != "":
@@ -124,7 +124,7 @@ class App():
 
         Log_but_text = StringVar()
         Log_but = Button(master=self.Login_frame, textvariable=Log_but_text, font=self.basic_font,
-                         fg=self.foreground_color, bg=self.background_color, command=self.logowanie)
+                         fg=self.foreground_color, bg=self.background_color, command=self.login_func)
         Log_but.grid(column=1, row=3, pady=(40, 0))
         Log_but_text.set('Login')
 
@@ -268,7 +268,7 @@ class App():
 
         sel.trace('w', my_upd)
 
-        # nazwa faktury, data wystawienia/sprzedaży, ile vatu, contrahent's autoincrement, przedmioty
+
 
     def settings(self):
         self.Settings_frame = Frame(self.root, height=self.screen_height, width=self.screen_width,
@@ -301,7 +301,7 @@ class App():
                                 fg=self.foreground_color, bg=self.background_color)
         Contrahent_text.grid(column=5, row=0)
 
-        # Nazwa, adres, nip, e-mail, Telefon
+
         Name_text = Label(self.Contrahent_frame, text="Name", font=self.basic_font, fg=self.foreground_color,
                           bg=self.background_color)
         Name_text.grid(column=3, row=1)
@@ -355,11 +355,9 @@ class App():
 
     def additem(self):
 
-        #kategorie
         categories = ["Biżuteria", "Broń", "Kosmetyki", "Meble", "Narzędzia", "Sprzęt RTV", "Odzież", "Elektronika"]
 
 
-        #quantity, kategoria, Nazwa prezdmiotu, cena
         self.Additem_frame = Frame(self.root, width=self.screen_width, height=self.screen_height, bg=self.background_color)
         self.Additem_frame.grid()
         self.Additem_frame.grid_propagate(0)
